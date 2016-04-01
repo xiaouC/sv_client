@@ -1,6 +1,7 @@
 
 YY_CREATE_PLAYER_CONFIG = {
     health = 100,               -- 初始健康值
+    model_id = 204272,
     scene_name = 'First.sm',    -- 当前所在场景
     mv_speed = 5,               -- 移动的速度
     position = {                -- 坐标

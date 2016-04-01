@@ -1,3 +1,4 @@
+-- ./gamecommon/user_object.lua
 require 'utils.class'
 
 local __user_object = class( 'user_object' )
@@ -18,17 +19,17 @@ end
 function __user_object:addEffect( effect_name )
 end
 
-function __user_object:playAction( action, call_back_func )
-    if call_back_func then call_back_func() end
+function __user_object:playAction( actions, loop_count, call_back_func )
+    self.model_obj:playAction( actions[1], loop_count, call_back_func )
 end
 
 function __user_object:checkConsume( consume_item, checkOnly )
     local consume_item_config = {
-        ['ATTR'] = function() self:checkAttr( consume_item, checkOnly ) end,
-        ['ITEM'] = function() self:checkItem( consume_item, checkOnly ) end,
+        ['ATTR'] = function() return self:checkAttr( consume_item, checkOnly ) end,
+        ['ITEM'] = function() return self:checkItem( consume_item, checkOnly ) end,
     }
 
-    consume_item_config[consume_item.type]()
+    return consume_item_config[consume_item.type]()
 end
 
 function __user_object:checkAttr( item, checkOnly )
@@ -85,6 +86,11 @@ function __user_object:enterScene( scene_name, x, y )
         self.scene_name = scene_name
         self.scene_node = TLSeamlessMap:create( scene_name, x, y )
         all_scene_layers[layer_type_scene]:addChild( self.scene_node )
+
+        if not self.model_obj then
+            self.model_obj = ( require 'gamecommon.model_object' ).new( self.scene_node, self.save_datas.model_id )
+            self.model_obj:playAction( 'standby', -1 )
+        end
     else
         self.scene_node:setCurXY( x, y )
     end
@@ -100,10 +106,16 @@ function __user_object:move( dir )
         ['down'] = function() return 0, -self.save_datas.mv_speed end,
     }
 
+    self.model_obj:playAction( 'run', -1 )
+
     local mv_x, mv_y = mv_dir[dir]()
     if self.scene_node:getIsEnablePass( self.cur_x + mv_x, self.cur_y + mv_y ) then
         self:setTo( self.cur_x + mv_x, self.cur_y + mv_y )
     end
+end
+
+function __user_object:moveEnd()
+    self.model_obj:playAction( 'standby', -1 )
 end
 
 function __user_object:setTo( x, y )
@@ -113,9 +125,10 @@ function __user_object:setTo( x, y )
     self.scene_node:setPosition( -x, -y )
 end
 
-function __user_object:doAction()
-    self.cur_action = skill_id
+function __user_object:doAction( action )
+    self.cur_action = action
 
+    require 'gamecommon.skill'
     useSkill( self, nil, self.cur_action )
 end
 

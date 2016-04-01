@@ -1,4 +1,5 @@
--- 
+-- ./gamecommon/skill.lua
+require 'config.skill_config'
 
 -- 技能类型
 local KaiKen = 1
@@ -65,7 +66,9 @@ function useSkill( player_obj, item_obj, skill_id )
     end
 
     -- 技能动作
-    player_obj:playAction( skill_info.actions, function()
+    player_obj:playAction( skill_info.actions, 0, function()
+        player_obj:playAction( { 'standby' }, -1 )
+
         -- 对目标起作用
         local targets = getSkillTarget( skill_info, player_obj, item_obj )
         for _, target_obj in ipairs( targets or {} ) do

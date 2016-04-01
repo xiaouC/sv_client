@@ -29,6 +29,7 @@ YY_SKILL_CONFIG = {
             },
         },
         actions = {                     -- 使用这个技能时候的动作
+            'attack01',
         },
         effects = {                     -- 使用这个技能时候，玩家身上的光效
         },

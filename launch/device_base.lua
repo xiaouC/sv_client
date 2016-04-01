@@ -235,6 +235,10 @@ function __device_base:run()
         require 'gamecommon.create_player'
         g_player_obj = createPlayer( 'Flying-over-the-sky' )
         g_player_obj:enterScene( g_player_obj.save_datas.scene_name, g_player_obj.save_datas.position.x, g_player_obj.save_datas.position.y )
+
+        schedule_once_time( 3, function()
+            g_player_obj:doAction( 1 )
+        end)
     end)
 end
 
