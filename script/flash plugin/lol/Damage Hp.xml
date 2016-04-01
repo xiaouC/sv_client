@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="Damage Hp" >
+         <label value="伤害百分比"/>
+         <textbox id="hp" />
+
+		 <label value="被击动作(可选)" />
+		 <textbox id="action" />
+
+		 <label value="被击停滞时间(可选)" />
+		 <textbox id="freeze" />
+</dialog>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="Bat Rename Tool" >
+         <label value="请输入名称前缀"/>
+         <textbox id="prefixName"/>
+</dialog>

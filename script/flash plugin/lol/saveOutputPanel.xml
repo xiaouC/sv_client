@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept, cancel"  title="保存输出面板信息" >
+         <hbox>
+                  <label value="URL:" />
+                   <textbox id = "url" size="30" multiline="false"/>
+                   <buttons="accept, cancel"/>
+         <hbox>
+</dialog>

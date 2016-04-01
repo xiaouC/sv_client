@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="直接执行脚本" >
+         <label value="请输入动作名"/>
+         <textbox id="actionName" />
+</dialog>

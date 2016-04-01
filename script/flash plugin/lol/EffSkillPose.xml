@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="Damage Hp" >
+         <label value="脸部图层"/>
+         <textbox id="facePos" />
+
+		 <label value="闪光图层(可选)" />
+		 <textbox id="lightPos" />
+</dialog>

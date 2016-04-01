@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="Export MovieClip" >
+         <label value="请输入动作名"/>
+         <textbox id="actionName" />
+         <label value="请输入播放次数"/>
+         <textbox id="loopCount" />
+</dialog>

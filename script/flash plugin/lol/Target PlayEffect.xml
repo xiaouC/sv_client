@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="在目标上播放特效" >
+    	<label value="特效名(特效路径)"/>
+		<textbox id="effectName" />
+
+    	<label value="目标图层"/>
+		<textbox id="layerName" />
+
+		<label value="缩放大小"/>
+		<textbox id="scaleValue" />
+</dialog>

@@ -1,0 +1,15 @@
+fl.trace("Damage Hp(技能伤害) 在target层或script层中某帧插入技能伤害的百分比");
+fl.trace("Export MovieClip(导出模型) 导出角色到mc目录");
+fl.trace("Help(帮助)");
+fl.trace("Play Action(角色做动作) 在target层或script层中某帧插入角色做动作");
+fl.trace("Rename(批量修改名字) 批量给选定的库元素添加名字前缀");
+fl.trace("Skew Flip(倾斜翻转) 对选定帧中的所有带倾斜元素进行水平或上下翻转");
+fl.trace("View Model(浏览模型) 对导出后的文件进行浏览");
+fl.trace("MoveTo(移动角色) 移动角色一定距离，-100表示向后移动100个像素");
+fl.trace("MoveTo Target(移动到目标前面) 移动到目标偏移的位置，-100表示目标的前面100个像素");
+fl.trace("MoveBack(移动回来) 移动到玩家站的地方");
+fl.trace("MoveOut(移动出屏幕) 移动角色离开屏幕");
+fl.trace("ShowXPBackground(显示大招背景) 显示大招背景");
+fl.trace("HideXPBackground(隐藏大招背景) 隐藏大招背景");
+fl.trace("MoveLeftXPBackground(大招背景向左移动) 大招背景向左移动");
+fl.trace("MoveRightXPBackground(大招背景向右移动) 大招背景向右移动");

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Commands>
+  <name source="AIR - Application and Installer Settings" target="[默认]AIR - 应用程序和安装程序设置"></name>
+  <name source="AIR - Create AIR File" target="[默认]AIR - 创建 AIR 文件"></name>
+  <name source="Copy Motion as XML" target="[默认]将动画复制为 XML"></name>
+  <name source="Export Motion XML" target="[默认]导出动画 XML"></name>
+  <name source="Import Motion XML" target="[默认]导入动画 XML"></name>
+  <name source="Copy Font Name for ActionScript" target="[默认]复制 ActionScript 的字体名称"></name>
+  <name source="Convert Symbol to Flex Container" target="[默认]将元件转换为 Flex 容器"></name>
+  <name source="Convert Symbol to Flex Component" target="[默认]将元件转换为 Flex 组件"></name>
+  
+  <name source="Help" target="[通用]帮助"></name>
+  <name source="Rename" target="[通用]改名"></name>
+  <name source="Skew Flip" target="[通用]翻转倾斜帧"></name>
+  <name source="Export MovieClip" target="[通用]导出模型/特效"></name>    
+  <name source="Batch Export MovieClip" target="[通用]批量导出模型/特效"></name>   
+  <name source="View Model" target="[通用]浏览模型/特效"></name>
+  <name source="ShakeScreeen" target="[战斗]屏幕震动"></name>    
+  <name source="LightScreeen" target="[战斗]屏幕闪烁"></name>
+  <name source="ShowXPBackground" target="[战斗]大招背景显示"></name>
+  <name source="HideXPBackground" target="[战斗]大招背景隐藏"></name>
+  <name source="MoveLeftXPBackground" target="[战斗]大招背景向左移动"></name>
+  <name source="MoveRightXPBackground" target="[战斗]大招背景向右移动"></name>  
+  <name source="MoveBack" target="[战斗]攻击者移动回来"></name>  
+  <name source="MoveOut" target="[战斗]攻击者移出屏幕"></name>  
+  <name source="MoveTo" target="[战斗]攻击者往前移动"></name>
+  <name source="MoveTo Target" target="[战斗]攻击者移向目标"></name>
+  <name source="SetDir" target="[战斗]攻击者设置方向"></name>
+  <name source="Player Pause" target="[战斗]攻击者暂停"></name>
+  <name source="EffSkillPose" target="[战斗]攻击者播放横幅特效"></name>
+  <name source="TargetSceneEffect" target="[战斗]被击者转场"></name>  
+
+  <name source="Play Action" target="[战斗]被击者做动作"></name>
+  <name source="Damage Hp" target="[战斗]被击者扣血"></name>  
+  <name source="Target MoveBack" target="[战斗]被击者移动回来"></name>
+  <name source="Target MoveOut" target="[战斗]被击者移出屏幕"></name>
+  <name source="Target MoveTo" target="[战斗]被击者向前移动"></name>
+  <name source="Target MoveTo Player" target="[战斗]被击者移动到攻击者"></name>
+  <name source="Target PlayEffect" target="[战斗]被击者播放特效"></name>
+  <name source="Target SetDir" target="[战斗]被击者设置方向"></name>
+  <name source="Target Pause" target="[战斗]被击者暂停"></name>
+  <name source="DamageEffect" target="[作废]播放伤害特效"></name>  
+  <name source="doScript" target="[作废]播放特效"></name>  
+</Commands>

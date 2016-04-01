@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dialog buttons="accept,cancel" title="SetDir" >
+         <label value="方向"/>
+         <textbox id="dir" />
+</dialog>
