@@ -84,7 +84,7 @@ function __user_object:enterScene( scene_name, x, y )
 
         self.scene_name = scene_name
         self.scene_node = TLSeamlessMap:create( scene_name, x, y )
-        all_scene_layers[layer_type_scene]:addChild( self.cur_sm_node )
+        all_scene_layers[layer_type_scene]:addChild( self.scene_node )
     else
         self.scene_node:setCurXY( x, y )
     end
@@ -111,6 +111,12 @@ function __user_object:setTo( x, y )
     self.cur_y = y
 
     self.scene_node:setPosition( -x, -y )
+end
+
+function __user_object:doAction()
+    self.cur_action = skill_id
+
+    useSkill( self, nil, self.cur_action )
 end
 
 return __user_object

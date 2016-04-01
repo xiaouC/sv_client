@@ -43,6 +43,7 @@ function __device_linux:setSearchPath()
     AssetsManager:sharedAssetsManager():addSearchPath( CLIENT_DIRECTORY .. 'images/body/' )
     AssetsManager:sharedAssetsManager():addSearchPath( CLIENT_DIRECTORY .. 'particles/textures/' )
     AssetsManager:sharedAssetsManager():addSearchPath( CLIENT_DIRECTORY .. 'mc/' )
+    AssetsManager:sharedAssetsManager():addSearchPath( CLIENT_DIRECTORY .. 'map/' )
 end
 
 function __device_linux:getDesignSize()

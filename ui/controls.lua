@@ -6,7 +6,6 @@ function init_top_window( node, win_flags, win_name )
     local win = TLWindow:createWindow( node, win_flags or TL_WINDOW_UNIVARSAL )
     win:SetWindowName( win_name or '' )
 
-    win:SetWindowPos( TLWindowManager:SharedTLWindowManager():GetCenterPoint() )
     TLWindowManager:SharedTLWindowManager():AddModuleWindow( win )
 
     return win, node

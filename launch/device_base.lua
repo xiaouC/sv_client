@@ -4,7 +4,7 @@ require 'utils.protobuf'
 require 'utils.shaders'
 require 'utils.common'
 require 'utils.richMark'
-require 'config.push_notification_config'
+--require 'config.push_notification_config'
 
 local __device_base = class( 'device_base' )
 function __device_base:ctor()
@@ -154,7 +154,6 @@ function __device_base:init()
     MCLoader:sharedMCLoader():loadIndexFile( 'mc/anim.index', 'mc/frames.index' )
 
     protobuf.register( getFileData( 'config/poem.pb' ) )
-    protobuf.register( getFileData( 'config/config.pb' ) )
 
     -- 初始化自定义的 shader	
     --initCustomShaders()  -- init in async
@@ -234,9 +233,8 @@ function __device_base:run()
         --openBootWin( true )
 
         require 'gamecommon.create_player'
-        require 'gamecommon.scene_manager'
         g_player_obj = createPlayer( 'Flying-over-the-sky' )
-        scene_manager:enterScene( g_player_obj.scene_name, g_player_obj.position.x, g_player_obj.position.y )
+        g_player_obj:enterScene( g_player_obj.save_datas.scene_name, g_player_obj.save_datas.position.x, g_player_obj.save_datas.position.y )
     end)
 end
 
@@ -249,16 +247,26 @@ layer_type_mask                 = 4
 layer_type_system               = 5
 all_scene_layers = all_scene_layers or { }
 function __device_base:initSceneLayers()
+    local c_x, c_y = self:getCenterPos()
+
+    all_scene_layers[layer_type_scene] = CCLayer:create()
+    all_scene_layers[layer_type_scene]:setPosition( c_x, c_y )
+    self.root_scene_node:addChild( all_scene_layers[layer_type_scene] )
+
     all_scene_layers[layer_type_ui] = TLWindowManager:SharedTLWindowManager()
+    all_scene_layers[layer_type_ui]:setPosition( c_x, c_y )
     self.root_scene_node:addChild( all_scene_layers[layer_type_ui] )
 
     all_scene_layers[layer_type_fight_ui] = CCLayer:create()
+    all_scene_layers[layer_type_fight_ui]:setPosition( c_x, c_y )
     self.root_scene_node:addChild( all_scene_layers[layer_type_fight_ui] )
 
     all_scene_layers[layer_type_mask] = TLMaskLayer:sharedTLMaskLayer()
+    all_scene_layers[layer_type_mask]:setPosition( c_x, c_y )
     self.root_scene_node:addChild( all_scene_layers[layer_type_mask] )
 
     all_scene_layers[layer_type_system] = CCLayer:create()
+    all_scene_layers[layer_type_system]:setPosition( c_x, c_y )
     self.root_scene_node:addChild( all_scene_layers[layer_type_system] )
 
     self.root_scene_node:scheduleUpdateWithPriorityLua( function( dt )
@@ -282,6 +290,7 @@ function __device_base:setSearchPath()
     AssetsManager:sharedAssetsManager():addSearchPath( 'images/giftbag/' )
     AssetsManager:sharedAssetsManager():addSearchPath( 'particles/textures/' )
     AssetsManager:sharedAssetsManager():addSearchPath( 'mc/' )
+    AssetsManager:sharedAssetsManager():addSearchPath( 'map/' )
 end
 
 function __device_base:getDesignSize()
