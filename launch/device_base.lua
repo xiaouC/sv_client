@@ -239,6 +239,9 @@ function __device_base:run()
         schedule_once_time( 3, function()
             g_player_obj:doAction( 1 )
         end)
+
+        require 'win.mainUI'
+        openMainWindow()
     end)
 end
 

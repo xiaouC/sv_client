@@ -6,7 +6,7 @@ local __sdk_login_ios = class( 'sdk_login_ios', sdk_login_yy_obj )
 function __sdk_login_ios:ctor()
     sdk_login_yy_obj.ctor( self )
 
-    register_platform_callback( CB_LOGOUT_SUCCESS, function( json ) sdk_login_yy_obj.doLogout( self ) end )
+    register_platform_callback( "SDK_LOGOUT", function( json ) sdk_login_yy_obj.doLogout( self ) end )
 end
 
 function __sdk_login_ios:openLoginWindow( server_id )

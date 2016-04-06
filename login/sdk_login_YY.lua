@@ -5,17 +5,17 @@ local __sdk_login_YY = class( 'sdk_login_YY', sdk_login_base_obj )
 function __sdk_login_YY:ctor()
     sdk_login_base_obj.ctor( self )
 
-    register_platform_callback(CB_LOGIN_SUCCESS, function(json)
+    register_platform_callback( "SDK_LOGIN_SUCCESS", function(json)
         local u = cjson.decode(json)
         CCLuaLog(string.format('token:%s, userID:%s', u.token, u.userID))
         CCLuaLog("lua onLoginSuccess:" .. json);
         self:doLogin(u.token, u.userID, self.server_id, u.channelID)
     end)
-    register_platform_callback( CB_LOGIN_FAIL, function( json ) end )
-    register_platform_callback( CB_LOGOUT_SUCCESS, function( json ) self:doLogout() end )
-    register_platform_callback( CB_PAY_SUCCESS, function( json ) end )
-    register_platform_callback( CB_PAY_FAIL, function( json ) end )
-    register_platform_callback( CB_EXIT_CUSTOM, function( json ) g_device_obj:doQuit() end )
+    register_platform_callback( "SDK_LOGIN_FAILED", function( json ) end )
+    register_platform_callback( "SDK_LOGOUT", function( json ) self:doLogout() end )
+    register_platform_callback( "SDK_PAY_SUCCESS", function( json ) end )
+    register_platform_callback( "SDK_PAY_FAIL", function( json ) end )
+    register_platform_callback( "SDK_EXIT", function( json ) g_device_obj:doQuit() end )
 end
 
 function __sdk_login_YY:openLoginWindow( server_id )

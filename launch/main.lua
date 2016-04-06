@@ -39,7 +39,7 @@ function main()
     CCLuaLog( 'g_net_word_type : ' .. tostring( g_net_word_type ) )
 
     -- 注册监听函数
-    register_platform_callback( CB_REACHABILITY_CHANGED, function()
+    register_platform_callback( "CB_REACHABILITY_CHANGED", function()
         g_net_word_type = getNetworkTypeName()
 
         -- 如果没有进入游戏，也没有网络的话，就直接回到登录界面

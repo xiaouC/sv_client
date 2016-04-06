@@ -101,20 +101,21 @@ function __user_object:enterScene( scene_name, x, y )
     self:setTo( x, y )
 end
 
-function __user_object:move( dir )
+function __user_object:move( dir, dt )
+    CCLuaLog( 'dir : ' .. tostring( dir ) )
     local mv_dir = {
-        ['left'] = function() return -self.save_datas.mv_speed, 0 end,
-        ['right'] = function() return self.save_datas.mv_speed, 0 end,
-        ['up'] = function() return 0, self.save_datas.mv_speed end,
-        ['down'] = function() return 0, -self.save_datas.mv_speed end,
+        ['left'] = function() return -self.save_datas.mv_speed * dt, 0 end,
+        ['right'] = function() return self.save_datas.mv_speed * dt, 0 end,
+        ['up'] = function() return 0, self.save_datas.mv_speed * dt end,
+        ['down'] = function() return 0, -self.save_datas.mv_speed * dt end,
     }
 
     self.model_obj:playAction( 'run', -1 )
 
     local mv_x, mv_y = mv_dir[dir]()
-    if self.scene_node:getIsEnablePass( self.cur_x + mv_x, self.cur_y + mv_y ) then
+    --if self.scene_node:getIsEnablePass( self.cur_x + mv_x, self.cur_y + mv_y ) then
         self:setTo( self.cur_x + mv_x, self.cur_y + mv_y )
-    end
+    --end
 end
 
 function __user_object:moveEnd()
@@ -125,6 +126,10 @@ function __user_object:setTo( x, y )
     self.cur_x = x
     self.cur_y = y
 
+    CCLuaLog( 'x : ' .. tostring( x ) )
+    CCLuaLog( 'y : ' .. tostring( y ) )
+
+    self.model_obj.model_mc:setPosition( x, y )
     self.scene_node:setPosition( -x, -y )
 end
 
