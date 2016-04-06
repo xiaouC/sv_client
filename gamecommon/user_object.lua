@@ -63,20 +63,105 @@ function __user_object:checkItem( item, checkOnly )
     return true
 end
 
-function __user_object:getGridInfo()
-    local grid_info = {
-        state = 1,
+function __user_object:getGridInfo( dir )
+    local grid_dir = {
+        ['current'] = {               -- 当前位置
+            ['left'] = function() return self.cur_x, self.cur_y end,
+            ['right'] = function() return self.cur_x, self.cur_y end,
+            ['up'] = function() return self.cur_x, self.cur_y end,
+            ['down'] = function() return self.cur_x, self.cur_y end,
+        },
+        ['front'] = {
+            ['left'] = function() return self.cur_x - self.grid_width, self.cur_y end,
+            ['right'] = function() return self.cur_x + self.grid_width, self.cur_y end,
+            ['up'] = function() return self.cur_x, self.cur_y + self.grid_height end,
+            ['down'] = function() return self.cur_x, self.cur_y - self.grid_height end,
+        },
+        ['back'] = {
+            ['left'] = function() return self.cur_x + self.grid_width, self.cur_y end,
+            ['right'] = function() return self.cur_x - self.grid_width, self.cur_y end,
+            ['up'] = function() return self.cur_x, self.cur_y - self.grid_height end,
+            ['down'] = function() return self.cur_x, self.cur_y + self.grid_height end,
+        },
+        ['left'] = {
+            ['left'] = function() return self.cur_x, self.cur_y - self.grid_height end,
+            ['right'] = function() return self.cur_x, self.cur_y + self.grid_height end,
+            ['up'] = function() return self.cur_x - self.grid_width, self.cur_y end,
+            ['down'] = function() return self.cur_x + self.grid_width, self.cur_y end,
+        },
+        ['right'] = {
+            ['left'] = function() return self.cur_x, self.cur_y + self.grid_height end,
+            ['right'] = function() return self.cur_x, self.cur_y - self.grid_height end,
+            ['up'] = function() return self.cur_x + self.grid_width, self.cur_y end,
+            ['down'] = function() return self.cur_x - self.grid_width, self.cur_y end,
+        },
+        ['left_front'] = {
+            ['left'] = function() return self.cur_x - self.grid_width, self.cur_y - self.grid_height end,
+            ['right'] = function() return self.cur_x + self.grid_width, self.cur_y + self.grid_height end,
+            ['up'] = function() return self.cur_x - self.grid_width, self.cur_y + self.grid_height end,
+            ['down'] = function() return self.cur_x + self.grid_width, self.cur_y - self.grid_height end,
+        },
+        ['right_front'] = {
+            ['left'] = function() return self.cur_x - self.grid_width, self.cur_y + self.grid_height end,
+            ['right'] = function() return self.cur_x + self.grid_width, self.cur_y - self.grid_height end,
+            ['up'] = function() return self.cur_x + self.grid_width, self.cur_y + self.grid_height end,
+            ['down'] = function() return self.cur_x - self.grid_width, self.cur_y - self.grid_height end,
+        },
+        ['left_back'] = {
+            ['left'] = function() return self.cur_x + self.grid_width, self.cur_y - self.grid_height end,
+            ['right'] = function() return self.cur_x - self.grid_width, self.cur_y + self.grid_height end,
+            ['up'] = function() return self.cur_x - self.grid_width, self.cur_y - self.grid_height end,
+            ['down'] = function() return self.cur_x + self.grid_width, self.cur_y + self.grid_height end,
+        },
+        ['right_back'] = {
+            ['left'] = function() return self.cur_x + self.grid_width, self.cur_y + self.grid_height end,
+            ['right'] = function() return self.cur_x - self.grid_width, self.cur_y - self.grid_height end,
+            ['up'] = function() return self.cur_x + self.grid_width, self.cur_y - self.grid_height end,
+            ['down'] = function() return self.cur_x - self.grid_width, self.cur_y + self.grid_height end,
+        },
     }
 
-    return { grid_info }
+    local x, y = grid_dir[dir][self.cur_dir]()
+    return self:getGridInfoByPosition( x, y )
 end
 
-function __user_object:getFrontGridInfo()
-    local grid_info = {
-        state = 1,
-    }
+--local grid_info = {
+--    state = 0,                      -- 当前状态
+--    last_change_time = 0,           -- 上一次改变的时间
+--    skill_id = 0,                   -- 技能 ID，可以由很多不同的情况触发，比如时间到了、踩上去、或者在一定范围内等等
+--    can_pass = true,                -- 能否通行
+--    can_plant = false,              -- 能否种植
+--    model = 0,                      -- 当前模型
+--}
+function __user_object:getGridInfoByPosition( x, y )
+    local grid_states = self.save_datas.grids[self.scene_name]
+    if not grid_states then return nil end
 
-    return { grid_info }
+    local grid_key = self:getGridKey( x, y )
+    if not grid_states[grid_key] then
+        grid_states[grid_key] = {
+            state = 0,
+            last_change_time = 0,
+            skill_id = 0,
+            can_pass = true,
+            can_plant = true,
+            model = 0,
+        }
+    end
+
+    return grid_states[grid_key]
+end
+
+function __user_object:getGridKey( x, y )
+    if not self.scene_node then return '' end
+
+    local x_flag = ( x > 0 and '+' or '-' )
+    local y_flag = ( y > 0 and '+' or '-' )
+
+    local row = math.floor( ( math.abs( x ) + self.grid_width * 0.5 ) / self.grid_width )
+    local col = math.floor( ( math.abs( y ) + self.grid_height * 0.5 ) / self.grid_height )
+
+    return string.format( '%s%d%s%d', x_flag, col, y_flag, row )
 end
 
 function __user_object:enterScene( scene_name, x, y )
@@ -87,15 +172,21 @@ function __user_object:enterScene( scene_name, x, y )
         self.scene_node = TLSeamlessMap:create( scene_name, x, y )
         all_scene_layers[layer_type_scene]:addChild( self.scene_node )
 
-        local camera = self.scene_node:getCamera();
-        camera:setEyeXYZ( 0, -10, 10 );
+        local camera = self.scene_node:getCamera()
+        camera:setEyeXYZ( 0, -10, 20 )
 
         if not self.model_obj then
             self.model_obj = ( require 'gamecommon.model_object' ).new( self.scene_node, self.save_datas.model_id )
             self.model_obj:playAction( 'standby', -1 )
         end
-    else
-        self.scene_node:setCurXY( x, y )
+
+        -- 玩家在该场景的地图格子状态
+        if not self.save_datas.grids[scene_name] then self.save_datas.grids[scene_name] = {} end
+
+        self.block_row = self.scene_node:getBlockRow()
+        self.block_col = self.scene_node:getBlockCol()
+        self.grid_width = self.scene_node:getGridWidth()
+        self.grid_height = self.scene_node:getGridHeight()
     end
 
     self:setTo( x, y )
@@ -110,6 +201,7 @@ function __user_object:move( dir, dt )
         ['down'] = function() return 0, -self.save_datas.mv_speed * dt end,
     }
 
+    self.cur_dir = dir
     self.model_obj:playAction( 'run', -1 )
 
     local mv_x, mv_y = mv_dir[dir]()
@@ -130,6 +222,7 @@ function __user_object:setTo( x, y )
     CCLuaLog( 'y : ' .. tostring( y ) )
 
     self.model_obj.model_mc:setPosition( x, y )
+    self.scene_node:setCurXY( x, y )
     self.scene_node:setPosition( -x, -y )
 end
 

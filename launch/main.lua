@@ -126,6 +126,7 @@ function __G__TRACKBACK__( msg )
 
     CCLuaLog( tb_text )
 
+    --[[
     -- 在 ios 或者 android 上，才会把错误上报
     local platform = getPlatform()
     if platform == 'ios' or platform == 'android' then
@@ -138,6 +139,7 @@ function __G__TRACKBACK__( msg )
             })
         end)
     end
+    --]]
 end
 
 xpcall( main,  __G__TRACKBACK__ )

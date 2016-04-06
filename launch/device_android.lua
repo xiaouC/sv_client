@@ -98,7 +98,7 @@ end
 
 function __device_android:run()
     g_sdk_login_obj:initSDK(function()
-        self:playCGMp4()
+        --self:playCGMp4()
 
         device_base_obj.run( self )
     end)

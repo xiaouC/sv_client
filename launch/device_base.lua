@@ -38,6 +38,9 @@ function __device_base:ctor()
 end
 
 function __device_base:push_notification(index)
+    return
+
+    --[[
     local push_config = {
         ['push1'] = function() 
             local push1_isUnAvailable = SystemConfig.getPushNotification1()
@@ -124,6 +127,7 @@ function __device_base:push_notification(index)
     if push_config[index] then
         push_config[index]()
     end
+    --]]
 end
 
 function __device_base:remove_all_notification()
