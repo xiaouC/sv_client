@@ -39,7 +39,7 @@ function main()
     CCLuaLog( 'g_net_word_type : ' .. tostring( g_net_word_type ) )
 
     -- 注册监听函数
-    register_platform_callback( CB_REACHABILITY_CHANGED, function()
+    register_platform_callback( "CB_REACHABILITY_CHANGED", function()
         g_net_word_type = getNetworkTypeName()
 
         -- 如果没有进入游戏，也没有网络的话，就直接回到登录界面
@@ -126,6 +126,7 @@ function __G__TRACKBACK__( msg )
 
     CCLuaLog( tb_text )
 
+    --[[
     -- 在 ios 或者 android 上，才会把错误上报
     local platform = getPlatform()
     if platform == 'ios' or platform == 'android' then
@@ -138,6 +139,7 @@ function __G__TRACKBACK__( msg )
             })
         end)
     end
+    --]]
 end
 
 xpcall( main,  __G__TRACKBACK__ )

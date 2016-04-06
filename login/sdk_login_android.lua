@@ -11,7 +11,7 @@ function __sdk_login_android:ctor()
     assert( ok, 'querySDKFeature failed' )
     self.feature = cjson.decode( s )
 
-    register_platform_callback( CB_LOGOUT_SUCCESS, function( json ) sdk_login_yy_obj.doLogout( self ) end )
+    register_platform_callback( "SDK_LOGOUT", function( json ) sdk_login_yy_obj.doLogout( self ) end )
 end
 
 function __sdk_login_android:openLoginWindow( server_id, arg )

@@ -88,7 +88,7 @@ function __user_object:enterScene( scene_name, x, y )
         all_scene_layers[layer_type_scene]:addChild( self.scene_node )
 
         local camera = self.scene_node:getCamera();
-        camera:setEyeXYZ( 0, -10, 10 );
+        camera:setEyeXYZ( 0, -10, 20 );
 
         if not self.model_obj then
             self.model_obj = ( require 'gamecommon.model_object' ).new( self.scene_node, self.save_datas.model_id )

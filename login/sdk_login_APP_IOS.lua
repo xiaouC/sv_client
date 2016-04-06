@@ -8,7 +8,7 @@ local __sdk_login_APP_IOS = class( 'sdk_login_APP_IOS', sdk_login_yy_obj )
 function __sdk_login_APP_IOS:ctor()
     sdk_login_yy_obj.ctor( self )
 
-    register_platform_callback( CB_ITUNES_IAP_VALIDATION, function( json )
+    register_platform_callback( "CB_ITUNES_IAP_VALIDATION", function( json )
         CCLuaLog('CB_ITUNES_IAP_VALIDATION: ' .. json)
         local payload = cjson.decode(json)
         receipt_validation(payload)
