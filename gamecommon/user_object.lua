@@ -87,15 +87,13 @@ function __user_object:enterScene( scene_name, x, y )
         self.scene_node = TLSeamlessMap:create( scene_name, x, y )
         all_scene_layers[layer_type_scene]:addChild( self.scene_node )
 
-        local camera = self.scene_node:getCamera();
-        camera:setEyeXYZ( 0, -10, 20 );
+        local camera = self.scene_node:getCamera()
+        camera:setEyeXYZ( 0, -10, 20 )
 
         if not self.model_obj then
             self.model_obj = ( require 'gamecommon.model_object' ).new( self.scene_node, self.save_datas.model_id )
             self.model_obj:playAction( 'standby', -1 )
         end
-    else
-        self.scene_node:setCurXY( x, y )
     end
 
     self:setTo( x, y )
@@ -125,6 +123,7 @@ function __user_object:setTo( x, y )
     self.cur_x = x
     self.cur_y = y
 
+    self.scene_node:setCurXY( x, y )
     self.scene_node:setPosition( -x, -y )
 end
 
