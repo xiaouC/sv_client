@@ -37,7 +37,10 @@ local skill_buttons = {
         skills = {
             {
                 file_name = 'images/btn.png',
-                skill_func = function() end,
+                skill_func = function()     -- kaiken
+                    local action = 1
+                    g_player_obj:doAction( action )
+                end,
             },
             {
                 file_name = 'images/btn.png',

@@ -1,9 +1,14 @@
 -- ./gamecommon/user_object.lua
+require 'config.game_const'
 require 'utils.class'
 
 local __user_object = class( 'user_object' )
 function __user_object:ctor( name )
     self.save_datas = { name = name }
+
+    self.schedule_handle = schedule_circle( 1, function()
+        self:updateGridObjectState()
+    end)
 end
 
 function __user_object:loadArchive()
@@ -63,7 +68,7 @@ function __user_object:checkItem( item, checkOnly )
     return true
 end
 
-function __user_object:getGridInfo( dir )
+function __user_object:getDirPos( dir )
     local grid_dir = {
         ['current'] = {               -- 当前位置
             ['left'] = function() return self.cur_x, self.cur_y end,
@@ -121,35 +126,41 @@ function __user_object:getGridInfo( dir )
         },
     }
 
-    local x, y = grid_dir[dir][self.cur_dir]()
-    return self:getGridInfoByPosition( x, y )
+    return grid_dir[dir][self.cur_dir]()
+end
+
+function __user_object:getGridInfo( dir, create_flag )
+    local x, y = self:getDirPos( dir )
+    return self:getGridInfoByPosition( x, y, create_flag )
 end
 
 --local grid_info = {
---    state = 0,                      -- 当前状态
+--    ability = 0
 --    last_change_time = 0,           -- 上一次改变的时间
 --    skill_id = 0,                   -- 技能 ID，可以由很多不同的情况触发，比如时间到了、踩上去、或者在一定范围内等等
 --    can_pass = true,                -- 能否通行
 --    can_plant = false,              -- 能否种植
+--    can_reap = false,               -- 能否收割
 --    model = 0,                      -- 当前模型
 --}
-function __user_object:getGridInfoByPosition( x, y )
+function __user_object:getGridInfoByPosition( x, y, create_flag )
     local grid_states = self.save_datas.grids[self.scene_name]
     if not grid_states then return nil end
 
     local grid_key = self:getGridKey( x, y )
-    if not grid_states[grid_key] then
+    if not grid_states[grid_key] and create_flag then
         grid_states[grid_key] = {
-            state = 0,
+            ability = 0,
             last_change_time = 0,
             skill_id = 0,
             can_pass = true,
-            can_plant = true,
+            can_plant = false,
+            can_reap = false,
             model = 0,
         }
     end
 
-    return grid_states[grid_key]
+    return grid_states[grid_key], grid_key
 end
 
 function __user_object:getGridKey( x, y )
@@ -158,15 +169,33 @@ function __user_object:getGridKey( x, y )
     local x_flag = ( x > 0 and '+' or '-' )
     local y_flag = ( y > 0 and '+' or '-' )
 
-    local row = math.floor( ( math.abs( x ) + self.grid_width * 0.5 ) / self.grid_width )
-    local col = math.floor( ( math.abs( y ) + self.grid_height * 0.5 ) / self.grid_height )
+    local col = math.floor( ( math.abs( x ) + self.grid_width * 0.5 ) / self.grid_width )
+    local row = math.floor( ( math.abs( y ) + self.grid_height * 0.5 ) / self.grid_height )
 
     return string.format( '%s%d%s%d', x_flag, col, y_flag, row )
+end
+
+function __user_object:getGridPosition( grid_key )
+    local x_flag = string.sub( grid_key, 1, 1 )
+    grid_key = string.sub( grid_key, 2 )
+
+    local pos = string.find( grid_key, '-' )
+    if not pos then pos = string.find( grid_key, '+' ) end
+
+    local col = string.sub( grid_key, 1, pos - 1 )
+    local y_flag = string.sub( grid_key, pos, pos )
+    local row = string.sub( grid_key, pos + 1 )
+
+    local x = ( x_flag == '+' and 1 or -1 ) * ( col * self.grid_width - self.grid_width * 0.5 )
+    local y = ( y_flag == '+' and 1 or -1 ) * ( row * self.grid_height - self.grid_height * 0.5 )
+
+    return x, y
 end
 
 function __user_object:enterScene( scene_name, x, y )
     if self.scene_name ~= scene_name then
         if self.scene_node then self.scene_node:removeFromParentAndCleanup( true ) end
+        self.all_grid_objs = {}
 
         self.scene_name = scene_name
         self.scene_node = TLSeamlessMap:create( scene_name, x, y )
@@ -187,6 +216,9 @@ function __user_object:enterScene( scene_name, x, y )
         self.block_col = self.scene_node:getBlockCol()
         self.grid_width = self.scene_node:getGridWidth()
         self.grid_height = self.scene_node:getGridHeight()
+
+        -- 生成新的
+        self:updateGridObjects()
     end
 
     self:setTo( x, y )
@@ -205,9 +237,18 @@ function __user_object:move( dir, dt )
     self.model_obj:playAction( 'run', -1 )
 
     local mv_x, mv_y = mv_dir[dir]()
-    --if self.scene_node:getIsEnablePass( self.cur_x + mv_x, self.cur_y + mv_y ) then
+    if self:canMove() then
         self:setTo( self.cur_x + mv_x, self.cur_y + mv_y )
-    --end
+    end
+end
+
+function __user_object:canMove()
+    -- 当前因为其他动作而不能移动
+    if not self.enable_move then return false end
+
+    --if not self.scene_node:getIsEnablePass( self.cur_x + mv_x, self.cur_y + mv_y ) then return false end
+
+    return true
 end
 
 function __user_object:moveEnd()
@@ -226,11 +267,52 @@ function __user_object:setTo( x, y )
     self.scene_node:setPosition( -x, -y )
 end
 
-function __user_object:doAction( action )
+function __user_object:doAction( action, call_back_func )
     self.cur_action = action
 
+    self.enable_move = false
+
     require 'gamecommon.skill'
-    useSkill( self, nil, self.cur_action )
+    useSkill( self, nil, self.cur_action, function()
+        self.enable_move = true
+
+        if call_back_func then call_back_func() end
+    end)
+end
+
+-- 移动一段距离后去生成附近的，销毁远离的
+function __user_object:updateGridObjects()
+    -- 记录下更新的坐标
+    self.last_update_grid_obj_x, self.last_update_grid_obj_y = self.cur_x, self.cur_y
+
+    -- 
+    local start_y = self.cur_y + grid_obj_visible_height * 0.5
+    local end_y = self.cur_y - grid_obj_visible_height * 0.5
+
+    while( start_y > end_y ) do
+        local start_x = self.cur_x - grid_obj_visible_width * 0.5
+        local end_x = self.cur_x + grid_obj_visible_width * 0.5
+
+        while( start_x < end_x ) do
+            local grid_info, grid_key = self:getGridInfoByPosition( start_x, start_y, false )
+            if grid_info and not self.all_grid_objs[grid_key] then
+                local x, y = self:getGridPosition( grid_key )
+                local grid_obj = ( require 'gamecommon.grid_object' ).new( grid_info, x, y )
+                self.all_grid_objs[grid_key] = grid_obj
+            end
+
+            start_x = start_x + self.grid_width
+        end
+
+        start_y = start_y - self.grid_height
+    end
+end
+
+-- 每秒执行一次的更新状态
+function __user_object:updateGridObjectState()
+    for _,grid_obj in pairs( self.all_grid_objs ) do
+        grid_obj:update()
+    end
 end
 
 return __user_object
