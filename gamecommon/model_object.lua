@@ -21,10 +21,10 @@ function __model_object:playAction( action_name, loop_count, call_back_func )
     local model_name = string.format( '%d/%s', self.model_id, action_name )
     self.model_mc = TLModel:createWithName( model_name )
     if call_back_func then self.model_mc:RegisterPlayEndCallbackHandler( call_back_func ) end
-    self.model_mc:setScale( 0.1 )
+    self.model_mc:setScale( 0.3 )
     self.model_mc:stop()
     self.model_mc:play( 0, -1, loop_count or 0 )
-    self.model_mc:setPosition( self.user_obj.cur_x, self.user_obj.cur_y )
+    self.model_mc:setPosition( self.user_obj.cur_x + self.user_obj.model_offset_x, self.user_obj.cur_y + self.user_obj.model_offset_y )
     self.parent_node:addChild( self.model_mc, math.floor( -self.user_obj.cur_y ) )
 end
 

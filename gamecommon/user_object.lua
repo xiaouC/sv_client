@@ -6,6 +6,9 @@ local __user_object = class( 'user_object' )
 function __user_object:ctor( name )
     self.save_datas = { name = name }
 
+    self.model_offset_x = 0
+    self.model_offset_y = 30
+
     self.schedule_handle = schedule_circle( 1, function()
         self:updateGridObjectState()
     end)
@@ -265,6 +268,7 @@ function __user_object:setTo( x, y )
 
     if self.model_obj then
         self.model_obj.model_mc:setPosition( x, y )
+        self.model_obj.model_mc:setPosition( x + self.model_offset_x, y + self.model_offset_y )
         self.scene_node:reorderChild( self.model_obj.model_mc, math.floor( -self.cur_y ) )
     end
 

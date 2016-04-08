@@ -3,25 +3,27 @@ require 'ui.controls'
 
 local winSize = CCDirector:sharedDirector():getWinSize()
 
+local ui_scale = 3
+
 local ctrl_buttons = {
     move_btn = {
         file_name = 'images/mvCtrl.png',
         win_name = 'mv_ctrl_win',
         get_position = function()
-            return 40 - winSize.width * 0.5 + 10, 40 - winSize.height * 0.5 + 10
+            return 40 * ui_scale - winSize.width * 0.5 + 10, 40 * ui_scale - winSize.height * 0.5 + 10
         end,
-        width = 80,
-        height = 80,
+        width = 80 * ui_scale,
+        height = 80 * ui_scale,
         click_func = function() end,
     },
     switch_btn = {
         file_name = 'images/switch.png',
         win_name = 'switch_skill_win',
         get_position = function()
-            return winSize.width * 0.5 - 40 - 10, 40 - winSize.height * 0.5 + 10
+            return winSize.width * 0.5 - 40 * ui_scale, 40 * ui_scale - winSize.height * 0.5
         end,
-        width = 80,
-        height = 80,
+        width = 80 * ui_scale,
+        height = 80 * ui_scale,
         click_func = function() end,
     },
 }
@@ -30,10 +32,10 @@ local cur_skill_ctroll_index = 1
 local skill_buttons = {
     {   -- button 1
         win_name = 'skill_win_1',
-        x = winSize.width * 0.5 - 150,
-        y = 20 - winSize.height * 0.5 + 5,
-        width = 40,
-        height = 40,
+        x = winSize.width * 0.5 - 150 - 160,
+        y = 20 * ui_scale - winSize.height * 0.5 + 15,
+        width = 40 * ui_scale,
+        height = 40 * ui_scale,
         skills = {
             {
                 file_name = 'images/btn.png',
@@ -44,16 +46,19 @@ local skill_buttons = {
             },
             {
                 file_name = 'images/btn.png',
-                skill_func = function() end,
+                skill_func = function()
+                    local action = 1
+                    g_player_obj:doAction( action )
+                end,
             },
         },
     },
     {   -- button 2
         win_name = 'skill_win_2',
-        x = winSize.width * 0.5 - 110,
-        y = 20 - winSize.height * 0.5 + 65,
-        width = 40,
-        height = 40,
+        x = winSize.width * 0.5 - 120 - 170,
+        y = 20 * ui_scale - winSize.height * 0.5 + 65 + 90,
+        width = 40 * ui_scale,
+        height = 40 * ui_scale,
         skills = {
             {
                 file_name = 'images/btn.png',
@@ -64,16 +69,19 @@ local skill_buttons = {
             },
             {
                 file_name = 'images/btn.png',
-                skill_func = function() end,
+                skill_func = function()
+                    local action = 2
+                    g_player_obj:doAction( action )
+                end,
             },
         },
     },
     {   -- button 3
         win_name = 'skill_win_3',
-        x = winSize.width * 0.5 - 70,
-        y = 20 - winSize.height * 0.5 + 125,
-        width = 40,
-        height = 40,
+        x = winSize.width * 0.5 - 70 - 120,
+        y = 20 * ui_scale - winSize.height * 0.5 + 125 + 120,
+        width = 40 * ui_scale,
+        height = 40 * ui_scale,
         skills = {
             {
                 file_name = 'images/btn.png',
@@ -87,10 +95,10 @@ local skill_buttons = {
     },
     {   -- button 4
         win_name = 'skill_win_4',
-        x = winSize.width * 0.5 - 30,
-        y = 20 - winSize.height * 0.5 + 185,
-        width = 40,
-        height = 40,
+        x = winSize.width * 0.5 - 30 - 40,
+        y = 20 * ui_scale - winSize.height * 0.5 + 185 + 100,
+        width = 40 * ui_scale,
+        height = 40 * ui_scale,
         skills = {
             {
                 file_name = 'images/btn.png',
@@ -160,6 +168,8 @@ function createMainWindow()
             -- 往下移动
             return g_player_obj:move( 'down', dt )
         end
+
+        --return g_player_obj:moveEnd()
     end)
 
     -- skill
@@ -185,7 +195,9 @@ end
 function createCtrlButton( cb_info, onclick )
     local frame = MCFrame:createWithBox( CCRect( -cb_info.width * 0.5, -cb_info.height * 0.5, cb_info.width, cb_info.height ) )
     frame:setPosition( cb_info.get_position() )
-    frame:addChild( MCLoader:sharedMCLoader():loadSprite( cb_info.file_name ) )
+    local sprite = MCLoader:sharedMCLoader():loadSprite( cb_info.file_name )
+    sprite:setScale( ui_scale )
+    frame:addChild( sprite )
 
     local win = TLWindow:createWindow( frame )
     win:SetWindowName( cb_info.win_name )
@@ -219,6 +231,7 @@ function createSkillButton( sb_info )
             self.click_func = skill_info.skill_func
 
             local sprite = MCLoader:sharedMCLoader():loadSprite( skill_info.file_name )
+            sprite:setScale( ui_scale )
             frame:addChild( sprite )
         end
     end
