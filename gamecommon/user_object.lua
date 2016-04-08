@@ -166,30 +166,30 @@ end
 function __user_object:getGridKey( x, y )
     if not self.scene_node then return '' end
 
-    local x_flag = ( x > 0 and '+' or '-' )
-    local y_flag = ( y > 0 and '+' or '-' )
+    local col = math.floor( math.floor( x ) / self.grid_width )
+    local k_x = col * self.grid_width + self.grid_width * 0.5
 
-    local col = math.floor( ( math.abs( x ) + self.grid_width * 0.5 ) / self.grid_width )
-    local row = math.floor( ( math.abs( y ) + self.grid_height * 0.5 ) / self.grid_height )
+    local row = math.floor( math.floor( y ) / self.grid_height )
+    local k_y = row * self.grid_height + self.grid_height * 0.5
 
-    return string.format( '%s%d%s%d', x_flag, col, y_flag, row )
+    return string.format( '%d|%d', k_x, k_y )
 end
 
 function __user_object:getGridPosition( grid_key )
-    local x_flag = string.sub( grid_key, 1, 1 )
-    grid_key = string.sub( grid_key, 2 )
+    local position = grid_key:split( '|', tonumber )
 
-    local pos = string.find( grid_key, '-' )
-    if not pos then pos = string.find( grid_key, '+' ) end
+    return position[1], position[2]
+end
 
-    local col = string.sub( grid_key, 1, pos - 1 )
-    local y_flag = string.sub( grid_key, pos, pos )
-    local row = string.sub( grid_key, pos + 1 )
+function __user_object:clearGrid( grid_key )
+    local grid_states = self.save_datas.grids[self.scene_name]
+    if not grid_states then return end
 
-    local x = ( x_flag == '+' and 1 or -1 ) * ( col * self.grid_width - self.grid_width * 0.5 )
-    local y = ( y_flag == '+' and 1 or -1 ) * ( row * self.grid_height - self.grid_height * 0.5 )
+    grid_states[grid_key] = nil
 
-    return x, y
+    local grid_obj = player_obj.all_grid_objs[grid_key]
+    if grid_obj then grid_obj:clear() end
+    player_obj.all_grid_objs[grid_key] = nil
 end
 
 function __user_object:enterScene( scene_name, x, y )
@@ -204,8 +204,10 @@ function __user_object:enterScene( scene_name, x, y )
         local camera = self.scene_node:getCamera()
         camera:setEyeXYZ( 0, -10, 20 )
 
+        self:setTo( x, y )
+
         if not self.model_obj then
-            self.model_obj = ( require 'gamecommon.model_object' ).new( self.scene_node, self.save_datas.model_id )
+            self.model_obj = ( require 'gamecommon.model_object' ).new( self, self.scene_node, self.save_datas.model_id )
             self.model_obj:playAction( 'standby', -1 )
         end
 
@@ -217,8 +219,6 @@ function __user_object:enterScene( scene_name, x, y )
         self.grid_width = self.scene_node:getGridWidth()
         self.grid_height = self.scene_node:getGridHeight()
 
-        self:setTo( x, y )
-
         -- 生成新的
         self:updateGridObjects()
     else
@@ -227,7 +227,6 @@ function __user_object:enterScene( scene_name, x, y )
 end
 
 function __user_object:move( dir, dt )
-    CCLuaLog( 'dir : ' .. tostring( dir ) )
     local mv_dir = {
         ['left'] = function() return -self.save_datas.mv_speed * dt, 0 end,
         ['right'] = function() return self.save_datas.mv_speed * dt, 0 end,
@@ -261,7 +260,14 @@ function __user_object:setTo( x, y )
     self.cur_x = x
     self.cur_y = y
 
-    self.model_obj.model_mc:setPosition( x, y )
+    self.save_datas.position.x = x
+    self.save_datas.position.y = y
+
+    if self.model_obj then
+        self.model_obj.model_mc:setPosition( x, y )
+        self.scene_node:reorderChild( self.model_obj.model_mc, math.floor( -self.cur_y ) )
+    end
+
     self.scene_node:setCurXY( x, y )
     self.scene_node:setPosition( -x, -y )
 end

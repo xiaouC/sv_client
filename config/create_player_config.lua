@@ -5,6 +5,7 @@ YY_CREATE_PLAYER_CONFIG = {
     cur_dir = 'down',           -- 初始朝向
     scene_name = 'First.sm',    -- 当前所在场景
     mv_speed = 60,              -- 移动的速度
+    watering_counter = 3,       -- 可用浇水次数
     position = {                -- 坐标
         x = 0,
         y = 0,

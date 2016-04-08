@@ -17,8 +17,12 @@ function __grid_object:recreate()
 
     -- 
     self.grid_model = self:createModel()
-    self.grid_model:setPosition( self.x, self.y )
-    g_player_obj.scene_node:addChild( self.grid_model )
+
+    local x, y = self.x + ( self.grid_info.offset_x or 0 ), self.y + ( self.grid_info.offset_y or 0 )
+    self.grid_model:setPosition( x, y )
+
+    local z_order = self.grid_info.z_order or math.floor( -self.y )
+    g_player_obj.scene_node:addChild( self.grid_model, z_order )
 end
 
 function __grid_object:createModel()
@@ -32,12 +36,17 @@ function __grid_object:createModel()
         ret_model_node:play( 0, -1, -1 )
     end
 
+    if self.grid_info.scale then ret_model_node:setScale( self.grid_info.scale ) end
+
     return ret_model_node
 end
 
 function __grid_object:update()
     local sa_info = skill_ability[self.grid_info.ability]
     if sa_info then sa_info.update_func( g_player_obj, self ) end
+end
+
+function __grid_object:clear()
 end
 
 return __grid_object

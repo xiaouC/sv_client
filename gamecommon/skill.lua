@@ -26,7 +26,7 @@ skill_ability = {
 
             return true
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
             local grid_info, grid_key = player_obj:getGridInfo( 'front', true )
 
             grid_info.ability = KaiKen
@@ -35,7 +35,8 @@ skill_ability = {
             grid_info.can_reap = false
             grid_info.last_change_time = os.time()
 
-            for k,v in pairs( ns_info ) do grid_info[k] = v end
+            for _,k in ipairs( rm_info or { } ) do grid_info[k] = nil end
+            for k,v in pairs( ns_info or { } ) do grid_info[k] = v end
 
             local grid_obj = player_obj.all_grid_objs[grid_key]
             if not grid_obj then
@@ -62,7 +63,7 @@ skill_ability = {
 
             return true
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
             local grid_info, grid_key = player_obj:getGridInfo( 'front', true )
 
             grid_info.ability = GrowingUp
@@ -71,7 +72,8 @@ skill_ability = {
             grid_info.can_reap = false
             grid_info.last_change_time = os.time()
 
-            for k,v in pairs( ns_info ) do grid_info[k] = v end
+            for _,k in ipairs( rm_info or { } ) do grid_info[k] = nil end
+            for k,v in pairs( ns_info or { } ) do grid_info[k] = v end
 
             player_obj.all_grid_objs[grid_key]:recreate()
         end,
@@ -82,8 +84,16 @@ skill_ability = {
     },
     [QuShui] = {
         check_func = function( player_obj, item_obj )
+            -- 正前方坐标
+            local k_x, k_y = player_obj:getDirPos( 'front' )
+
+            -- 这个格子允许
+            --if not player_obj.scene_node:getIsEnableFillWater( k_x, k_y ) then return false end
+
+            return true
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
+            player_obj.save_datas.watering_counter = ns_info.counter
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -92,8 +102,17 @@ skill_ability = {
     },
     [JiaoShui] = {
         check_func = function( player_obj, item_obj )
+            return true
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
+            local grid_info, grid_key = player_obj:getGridInfo( 'front', false )
+            if grid_info then
+                for _,k in ipairs( rm_info or { } ) do grid_info[k] = nil end
+                for k,v in pairs( ns_info or { } ) do grid_info[k] = v end
+
+                grid_info.duration = grid_info.duration - ns_info.reduce_time
+                if grid_info.duration < 0 then grid_info.duration = 0 end
+            end
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -111,7 +130,9 @@ skill_ability = {
 
             return true
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
+            local _, grid_key = player_obj:getGridInfo( 'front', true )
+            player_obj:clearGrid( grid_key )
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -121,7 +142,7 @@ skill_ability = {
     [MaiChu] = {
         check_func = function( player_obj, item_obj )
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -131,7 +152,7 @@ skill_ability = {
     [ShiYong] = {
         check_func = function( player_obj, item_obj )
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -141,7 +162,7 @@ skill_ability = {
     [GrowingUp] = {
         check_func = function( player_obj, item_obj )
         end,
-        effect_func = function( player_obj, item_obj, ns_info )
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
         end,
         update_func = function( player_obj, grid_obj )
             -- 没有持续时间，就一直维持在这个状态
@@ -155,7 +176,8 @@ skill_ability = {
                 if grid_obj.grid_info.next_skill_id then
                     local next_skill_info = YY_SKILL_CONFIG[grid_obj.grid_info.next_skill_id]
                     if next_skill_info then
-                        for k,v in pairs( next_skill_info.new_state ) do grid_obj.grid_info[k] = v end
+                        for _,k in ipairs( next_skill_info.rm_state or { } ) do grid_info[k] = nil end
+                        for k,v in pairs( next_skill_info.new_state or { } ) do grid_obj.grid_info[k] = v end
 
                         grid_obj:recreate()
                     end
@@ -217,7 +239,7 @@ function useSkill( player_obj, item_obj, skill_id, call_back_func )
         player_obj:playAction( { 'standby' }, -1 )
 
         -- 技能效果
-        sa_info.effect_func( player_obj, item_obj, skill_info.new_state )
+        sa_info.effect_func( player_obj, item_obj, skill_info.new_state, skill_info.rm_state )
 
         -- 消耗属性或者物品
         for _,consume_v in ipairs( skill_info.consume or {} ) do
