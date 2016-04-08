@@ -18,7 +18,7 @@ skill_ability = {
             local k_x, k_y = player_obj:getDirPos( 'front' )
 
             -- 这个格子允许
-            if not player_obj.scene_node:getIsEnablePlant( k_x, k_y ) then return false end
+            --if not player_obj.scene_node:getIsEnablePlant( k_x, k_y ) then return false end
 
             -- 上面有东西，不能动
             local grid_info = player_obj:getGridInfoByPosition( k_x, k_y, false )
@@ -37,7 +37,14 @@ skill_ability = {
 
             for k,v in pairs( ns_info ) do grid_info[k] = v end
 
-            player_obj.all_grid_objs[grid_key]:recreate()
+            local grid_obj = player_obj.all_grid_objs[grid_key]
+            if not grid_obj then
+                local x, y = player_obj:getGridPosition( grid_key )
+                grid_obj = ( require 'gamecommon.grid_object' ).new( grid_info, x, y )
+                player_obj.all_grid_objs[grid_key] = grid_obj
+            end
+
+            grid_obj:recreate()
         end,
         update_func = function( player_obj, item_obj )
         end,
@@ -147,9 +154,11 @@ skill_ability = {
 
                 if grid_obj.grid_info.next_skill_id then
                     local next_skill_info = YY_SKILL_CONFIG[grid_obj.grid_info.next_skill_id]
-                    for k,v in pairs( ns_info ) do grid_obj.grid_info[k] = v end
+                    if next_skill_info then
+                        for k,v in pairs( next_skill_info.new_state ) do grid_obj.grid_info[k] = v end
 
-                    grid_obj:recreate()
+                        grid_obj:recreate()
+                    end
                 end
             end
         end,

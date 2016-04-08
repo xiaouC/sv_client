@@ -46,7 +46,7 @@ function __user_object:checkAttr( item, checkOnly )
     end
 
     -- 
-    if not checkOnly then self.save_datas[attr] = self.save_datas[attr] - value end
+    if not checkOnly and item.rm_flag then self.save_datas[attr] = self.save_datas[attr] - value end
 
     return true
 end
@@ -63,7 +63,7 @@ function __user_object:checkItem( item, checkOnly )
     -- 物品数量不足
     if self.save_datas.items[item_id] < count then return false end
 
-    if not checkOnly then self.save_datas.items[item_id] = self.save_datas.items[item_id] - count end
+    if not checkOnly and item.rm_flag then self.save_datas.items[item_id] = self.save_datas.items[item_id] - count end
 
     return true
 end
@@ -126,7 +126,7 @@ function __user_object:getDirPos( dir )
         },
     }
 
-    return grid_dir[dir][self.cur_dir]()
+    return grid_dir[dir][self.save_datas.cur_dir]()
 end
 
 function __user_object:getGridInfo( dir, create_flag )
@@ -217,11 +217,13 @@ function __user_object:enterScene( scene_name, x, y )
         self.grid_width = self.scene_node:getGridWidth()
         self.grid_height = self.scene_node:getGridHeight()
 
+        self:setTo( x, y )
+
         -- 生成新的
         self:updateGridObjects()
+    else
+        self:setTo( x, y )
     end
-
-    self:setTo( x, y )
 end
 
 function __user_object:move( dir, dt )
@@ -233,7 +235,7 @@ function __user_object:move( dir, dt )
         ['down'] = function() return 0, -self.save_datas.mv_speed * dt end,
     }
 
-    self.cur_dir = dir
+    self.save_datas.cur_dir = dir
     self.model_obj:playAction( 'run', -1 )
 
     local mv_x, mv_y = mv_dir[dir]()
@@ -259,9 +261,6 @@ function __user_object:setTo( x, y )
     self.cur_x = x
     self.cur_y = y
 
-    CCLuaLog( 'x : ' .. tostring( x ) )
-    CCLuaLog( 'y : ' .. tostring( y ) )
-
     self.model_obj.model_mc:setPosition( x, y )
     self.scene_node:setCurXY( x, y )
     self.scene_node:setPosition( -x, -y )
@@ -282,6 +281,8 @@ end
 
 -- 移动一段距离后去生成附近的，销毁远离的
 function __user_object:updateGridObjects()
+    if not self.scene_node then return end
+
     -- 记录下更新的坐标
     self.last_update_grid_obj_x, self.last_update_grid_obj_y = self.cur_x, self.cur_y
 

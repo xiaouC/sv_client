@@ -9,7 +9,7 @@ function __grid_object:ctor( grid_info, x, y )
     self.y = y
 
     -- 
-    self.recreate()
+    self:recreate()
 end
 
 function __grid_object:recreate()
@@ -18,7 +18,7 @@ function __grid_object:recreate()
     -- 
     self.grid_model = self:createModel()
     self.grid_model:setPosition( self.x, self.y )
-    self.scene_node:addChild( self.grid_model )
+    g_player_obj.scene_node:addChild( self.grid_model )
 end
 
 function __grid_object:createModel()
@@ -39,3 +39,5 @@ function __grid_object:update()
     local sa_info = skill_ability[self.grid_info.ability]
     if sa_info then sa_info.update_func( g_player_obj, self ) end
 end
+
+return __grid_object

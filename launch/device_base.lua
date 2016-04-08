@@ -215,6 +215,8 @@ function __device_base:init()
     collectgarbage( 'setpause', 100 )
     collectgarbage( 'setstepmul', 5000 )
 
+    self.root_scene_node:setVisible( false )
+
     -- 
     CCDirector:sharedDirector():runWithScene( self.root_scene_node )
 end
@@ -240,8 +242,11 @@ function __device_base:run()
         g_player_obj = createPlayer( 'Flying-over-the-sky' )
         g_player_obj:enterScene( g_player_obj.save_datas.scene_name, g_player_obj.save_datas.position.x, g_player_obj.save_datas.position.y )
 
-        schedule_once_time( 3, function()
+        schedule_once_time( 1, function()
             g_player_obj:doAction( 1 )
+            schedule_once_time( 1, function()
+                g_player_obj:doAction( 2 )
+            end)
         end)
 
         require 'win.mainUI'
