@@ -392,3 +392,53 @@ function test_geometry_extend()
     end)
 end
 
+function test_rotation()
+    local winSize = CCDirector:sharedDirector():getWinSize()
+
+    local c_x, c_y = winSize.width * 0.5, winSize.height * 0.5
+    local d_x, d_y = nil, nil
+    local m_x, m_y = nil, nil
+    TLWindowManager:SharedTLWindowManager():setTouchBeganHandler( function( x, y )
+        d_x, d_y = x, y
+        m_x, m_y = x, y
+    end)
+    TLWindowManager:SharedTLWindowManager():setTouchMovedHandler( function( x, y )
+        m_x, m_y = x, y
+        local v1 = { x = d_x - c_x, y = d_y - c_y, z = 0 }
+        local v2 = { x = m_x - c_x, y = m_y - c_y, z = 0 }
+
+        local ret_dot = vector_dot( v1, v2 )
+        local ret_cross = vector_cross( v1, v2 )
+        local ret_distance = vector_distance( v1, v2 )
+        CCLuaLog( 'ret_dot : ' .. tostring( ret_dot ) )
+        CCLuaLog( 'ret_distance : ' .. tostring( ret_distance ) )
+        CCLuaLog( 'ret_dot / ret_distance : ' .. tostring( ret_dot / ret_distance ) )
+        local angle = math.deg( math.acos( ret_dot / ret_distance ) )
+        CCLuaLog( 'sssssssssssssssssssssssssssssssssssssssssssssssssssssss' )
+        if ret_cross.z > 0 then
+            CCLuaLog( 'angle : ' .. tostring( angle ) )
+        else
+            CCLuaLog( 'angle : ' .. tostring( -angle ) )
+        end
+        CCLuaLog( 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' )
+    end)
+    TLWindowManager:SharedTLWindowManager():setTouchEndedHandler( function( x, y )
+        m_x, m_y = x, y
+    end)
+end
+
+function vector_dot( v1, v2 )
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
+end
+
+function vector_cross( v1, v2 )
+    return {
+        x = v1.y * v2.z - v2.y * v1.z,
+        y = v1.z * v2.x - v2.z * v1.x,
+        z = v1.x * v2.y - v2.x * v1.y,
+    }
+end
+
+function vector_distance( v1, v2 )
+    return math.sqrt( ( v1.x * v1.x + v1.y * v1.y + v1.z * v1.z ) * ( v2.x * v2.x + v2.y * v2.y + v2.z * v2.z ) )
+end
