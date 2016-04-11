@@ -108,4 +108,14 @@ function __device_android:getUniqueDeviceID()
     return getMAC() or getIMEI()
 end
 
+function __device_android:listenYaoYiYao( yyy_func )
+    register_platform_callback( "YAOYIYAO", yyy_func )
+
+    assert( luaj.callStaticMethod( "org/yy/poem", "listenYaoYiYao", nil, "()V" ) )
+end
+
+function __device_android:unlistenYaoYiYao()
+    assert( luaj.callStaticMethod( "org/yy/poem", "unlistenYaoYiYao", nil, "()V" ) )
+end
+
 return __device_android

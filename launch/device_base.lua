@@ -363,4 +363,10 @@ function __device_base:requireSDK()
     return require( sdk_login_file )
 end
 
+function __device_base:listenYaoYiYao( yyy_func )
+end
+
+function __device_base:unlistenYaoYiYao()
+end
+
 return __device_base
