@@ -9,19 +9,19 @@
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{16,40}}</string>
+				<string>{{-24,24},{40,16}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
 				<string>{16,40}</string>
 				<key>spriteSourceSize</key>
-				<string>{16,40}</string>
+				<string>{40,16}</string>
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{112,0},{16,40}}</string>
+				<string>{{0,152},{40,16}}</string>
 				<key>textureRotated</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>book.png</key>
 			<dict>
@@ -38,7 +38,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{96,93},{10,12}}</string>
+				<string>{{64,88},{10,12}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
@@ -66,19 +66,38 @@
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{32,53}}</string>
+				<string>{{-21,21},{53,32}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
 				<string>{32,53}</string>
 				<key>spriteSourceSize</key>
-				<string>{32,53}</string>
+				<string>{53,32}</string>
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{80,0},{32,53}}</string>
+				<string>{{56,224},{53,32}}</string>
 				<key>textureRotated</key>
+				<true/>
+			</dict>
+			<key>diban.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{216,-216},{8,224}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{224,8}</string>
+				<key>spriteSourceSize</key>
+				<string>{8,224}</string>
+				<key>spriteTrimmed</key>
 				<false/>
+				<key>textureRect</key>
+				<string>{{80,0},{8,224}}</string>
+				<key>textureRotated</key>
+				<true/>
 			</dict>
 			<key>jingzi.png</key>
 			<dict>
@@ -95,7 +114,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{56,80},{24,32}}</string>
+				<string>{{0,120},{24,32}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
@@ -114,7 +133,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{112,88},{16,16}}</string>
+				<string>{{48,96},{16,16}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
@@ -123,19 +142,57 @@
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{16,14}}</string>
+				<string>{{2,-2},{14,16}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
 				<string>{16,14}</string>
 				<key>spriteSourceSize</key>
-				<string>{16,14}</string>
+				<string>{14,16}</string>
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{80,93},{16,14}}</string>
+				<string>{{32,96},{14,16}}</string>
+				<key>textureRotated</key>
+				<true/>
+			</dict>
+			<key>left_top_3.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{28,8}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{28,8}</string>
+				<key>spriteSourceSize</key>
+				<string>{28,8}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{48,112},{28,8}}</string>
 				<key>textureRotated</key>
 				<false/>
+			</dict>
+			<key>left_top_4.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{-14,14},{22,8}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{8,22}</string>
+				<key>spriteSourceSize</key>
+				<string>{22,8}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{56,80},{22,8}}</string>
+				<key>textureRotated</key>
+				<true/>
 			</dict>
 			<key>qiang.png</key>
 			<dict>
@@ -152,7 +209,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{0,111},{48,8}}</string>
+				<string>{{24,136},{48,8}}</string>
 				<key>textureRotated</key>
 				<true/>
 			</dict>
@@ -161,19 +218,19 @@
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{16,24}}</string>
+				<string>{{-8,8},{24,16}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
 				<string>{16,24}</string>
 				<key>spriteSourceSize</key>
-				<string>{16,24}</string>
+				<string>{24,16}</string>
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{112,40},{16,24}}</string>
+				<string>{{32,80},{24,16}}</string>
 				<key>textureRotated</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>tvset.png</key>
 			<dict>
@@ -190,7 +247,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{80,53},{32,40}}</string>
+				<string>{{0,80},{32,40}}</string>
 				<key>textureRotated</key>
 				<false/>
 			</dict>
@@ -209,7 +266,7 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{0,80},{56,31}}</string>
+				<string>{{0,224},{56,31}}</string>
 				<key>textureRotated</key>
 				<true/>
 			</dict>
@@ -218,19 +275,19 @@
 				<key>aliases</key>
 				<array/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{16,24}}</string>
+				<string>{{-8,8},{24,16}}</string>
 				<key>spriteOffset</key>
 				<string>{0,0}</string>
 				<key>spriteSize</key>
 				<string>{16,24}</string>
 				<key>spriteSourceSize</key>
-				<string>{16,24}</string>
+				<string>{24,16}</string>
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{112,64},{16,24}}</string>
+				<string>{{24,120},{24,16}}</string>
 				<key>textureRotated</key>
-				<false/>
+				<true/>
 			</dict>
 		</dict>
 		<key>metadata</key>
@@ -238,7 +295,7 @@
 			<key>format</key>
 			<integer>3</integer>
 			<key>size</key>
-			<string>{128,128}</string>
+			<string>{128,256}</string>
 			<key>target</key>
 			<dict>
 				<key>name</key>
