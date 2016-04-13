@@ -4,7 +4,7 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>baishe1.png</key>
+			<key>qinshi_1.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -23,159 +23,7 @@
 				<key>textureRotated</key>
 				<true/>
 			</dict>
-			<key>book.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{10,12}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{10,12}</string>
-				<key>spriteSourceSize</key>
-				<string>{10,12}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{64,88},{10,12}}</string>
-				<key>textureRotated</key>
-				<false/>
-			</dict>
-			<key>canzhuo.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{80,80}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{80,80}</string>
-				<key>spriteSourceSize</key>
-				<string>{80,80}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{0,0},{80,80}}</string>
-				<key>textureRotated</key>
-				<false/>
-			</dict>
-			<key>chuang.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{-21,21},{53,32}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{32,53}</string>
-				<key>spriteSourceSize</key>
-				<string>{53,32}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{56,224},{53,32}}</string>
-				<key>textureRotated</key>
-				<true/>
-			</dict>
-			<key>diban.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{216,-216},{8,224}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{224,8}</string>
-				<key>spriteSourceSize</key>
-				<string>{8,224}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{80,0},{8,224}}</string>
-				<key>textureRotated</key>
-				<true/>
-			</dict>
-			<key>jingzi.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{24,32}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{24,32}</string>
-				<key>spriteSourceSize</key>
-				<string>{24,32}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{0,120},{24,32}}</string>
-				<key>textureRotated</key>
-				<false/>
-			</dict>
-			<key>left_top.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{16,16}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{16,16}</string>
-				<key>spriteSourceSize</key>
-				<string>{16,16}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{48,96},{16,16}}</string>
-				<key>textureRotated</key>
-				<false/>
-			</dict>
-			<key>left_top_2.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{2,-2},{14,16}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{16,14}</string>
-				<key>spriteSourceSize</key>
-				<string>{14,16}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{32,96},{14,16}}</string>
-				<key>textureRotated</key>
-				<true/>
-			</dict>
-			<key>left_top_3.png</key>
-			<dict>
-				<key>aliases</key>
-				<array/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{28,8}}</string>
-				<key>spriteOffset</key>
-				<string>{0,0}</string>
-				<key>spriteSize</key>
-				<string>{28,8}</string>
-				<key>spriteSourceSize</key>
-				<string>{28,8}</string>
-				<key>spriteTrimmed</key>
-				<false/>
-				<key>textureRect</key>
-				<string>{{48,112},{28,8}}</string>
-				<key>textureRotated</key>
-				<false/>
-			</dict>
-			<key>left_top_4.png</key>
+			<key>qinshi_10.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -194,7 +42,7 @@
 				<key>textureRotated</key>
 				<true/>
 			</dict>
-			<key>qiang.png</key>
+			<key>qinshi_11.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -213,7 +61,7 @@
 				<key>textureRotated</key>
 				<true/>
 			</dict>
-			<key>rili.png</key>
+			<key>qinshi_12.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -228,11 +76,11 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{32,80},{24,16}}</string>
+				<string>{{24,120},{24,16}}</string>
 				<key>textureRotated</key>
 				<true/>
 			</dict>
-			<key>tvset.png</key>
+			<key>qinshi_13.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -251,7 +99,7 @@
 				<key>textureRotated</key>
 				<false/>
 			</dict>
-			<key>yancong.png</key>
+			<key>qinshi_14.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -270,7 +118,7 @@
 				<key>textureRotated</key>
 				<true/>
 			</dict>
-			<key>zhuozi.png</key>
+			<key>qinshi_15.png</key>
 			<dict>
 				<key>aliases</key>
 				<array/>
@@ -285,9 +133,161 @@
 				<key>spriteTrimmed</key>
 				<false/>
 				<key>textureRect</key>
-				<string>{{24,120},{24,16}}</string>
+				<string>{{32,80},{24,16}}</string>
 				<key>textureRotated</key>
 				<true/>
+			</dict>
+			<key>qinshi_2.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{10,12}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{10,12}</string>
+				<key>spriteSourceSize</key>
+				<string>{10,12}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{64,88},{10,12}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>qinshi_3.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{80,80}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{80,80}</string>
+				<key>spriteSourceSize</key>
+				<string>{80,80}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{0,0},{80,80}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>qinshi_4.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{-21,21},{53,32}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{32,53}</string>
+				<key>spriteSourceSize</key>
+				<string>{53,32}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{56,224},{53,32}}</string>
+				<key>textureRotated</key>
+				<true/>
+			</dict>
+			<key>qinshi_5.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{216,-216},{8,224}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{224,8}</string>
+				<key>spriteSourceSize</key>
+				<string>{8,224}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{80,0},{8,224}}</string>
+				<key>textureRotated</key>
+				<true/>
+			</dict>
+			<key>qinshi_6.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{24,32}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{24,32}</string>
+				<key>spriteSourceSize</key>
+				<string>{24,32}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{0,120},{24,32}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>qinshi_7.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{16,16}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{16,16}</string>
+				<key>spriteSourceSize</key>
+				<string>{16,16}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{48,96},{16,16}}</string>
+				<key>textureRotated</key>
+				<false/>
+			</dict>
+			<key>qinshi_8.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{2,-2},{14,16}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{16,14}</string>
+				<key>spriteSourceSize</key>
+				<string>{14,16}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{32,96},{14,16}}</string>
+				<key>textureRotated</key>
+				<true/>
+			</dict>
+			<key>qinshi_9.png</key>
+			<dict>
+				<key>aliases</key>
+				<array/>
+				<key>sourceColorRect</key>
+				<string>{{0,0},{28,8}}</string>
+				<key>spriteOffset</key>
+				<string>{0,0}</string>
+				<key>spriteSize</key>
+				<string>{28,8}</string>
+				<key>spriteSourceSize</key>
+				<string>{28,8}</string>
+				<key>spriteTrimmed</key>
+				<false/>
+				<key>textureRect</key>
+				<string>{{48,112},{28,8}}</string>
+				<key>textureRotated</key>
+				<false/>
 			</dict>
 		</dict>
 		<key>metadata</key>
