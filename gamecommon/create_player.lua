@@ -1,4 +1,4 @@
--- 
+-- ./gamecommon/create_player.lua
 require 'config.create_player_config'
 
 function createPlayer( name )

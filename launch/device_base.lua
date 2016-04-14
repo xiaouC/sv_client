@@ -238,19 +238,8 @@ function __device_base:run()
         --require 'login.boot'
         --openBootWin( true )
 
-        require 'gamecommon.create_player'
-        g_player_obj = createPlayer( 'Flying-over-the-sky' )
-        g_player_obj:enterScene( g_player_obj.save_datas.scene_name, g_player_obj.save_datas.position.x, g_player_obj.save_datas.position.y )
-
-        schedule_once_time( 3, function()
-            g_player_obj:doAction( 1 )
-            schedule_once_time( 1, function()
-                g_player_obj:doAction( 2 )
-            end)
-        end)
-
-        require 'win.mainUI'
-        openMainWindow()
+        require 'win.loginUI'
+        openLoginWindow()
     end)
 end
 
