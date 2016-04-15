@@ -6,6 +6,10 @@ function createPlayer( name )
     for k, v in pairs( YY_CREATE_PLAYER_CONFIG ) do
         ret_player_obj.save_datas[k] = v
     end
+
+    local obstacle_file_name = 'config/obstacle.lua'
+    ret_player_obj.save_datas['obstacle'] = table.load( obstacle_file_name )
+
     return ret_player_obj
 end
 

@@ -147,10 +147,21 @@ end
 --    model = 0,                      -- 当前模型
 --}
 function __user_object:getGridInfoByPosition( x, y, create_flag )
+    local grid_key = self:getGridKey( x, y )
+
+    -- 静态的在编辑器中摆放的障碍物
+    if self.save_datas['obstacle'] then
+        local all_obstacle = self.save_datas['obstacle']
+        local sm_file = self.scene_node:getSeamlessMapFile()
+        if all_obstacle[sm_file] and all_obstacle[sm_file][grid_key] then
+            return all_obstacle[sm_file][grid_key]
+        end
+    end
+
+    -- 动态的
     local grid_states = self.save_datas.grids[self.scene_name]
     if not grid_states then return nil end
 
-    local grid_key = self:getGridKey( x, y )
     if not grid_states[grid_key] and create_flag then
         grid_states[grid_key] = {
             ability = 0,
@@ -159,7 +170,7 @@ function __user_object:getGridInfoByPosition( x, y, create_flag )
             can_pass = true,
             can_plant = false,
             can_reap = false,
-            model = 0,
+            model = '',
         }
     end
 
