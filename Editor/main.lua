@@ -1,5 +1,7 @@
 -- ./Editor/main.lua
 require 'Editor.common'
+require 'utils.protobuf'
+require 'utils.string'
 
 function main()
     AssetsManager:sharedAssetsManager():addSearchPath( '' )
@@ -17,6 +19,10 @@ function main()
 	g_main_node = TLRunningScene:create();
     CCDirector:sharedDirector():runWithScene( g_main_node );
 
+    local win_manager = TLWindowManager:SharedTLWindowManager()
+    win_manager:setPosition( 0, 0 )
+    g_main_node:addChild( win_manager )
+
     g_main_scale = 1
 
 	g_main_scale_node = CCNode:create();
@@ -25,7 +31,7 @@ function main()
 
     -- 
     register_platform_callback( 'CHILD_VIEW_ON_SIZE', function( args )
-        local cv_size = args.split( '|', tonumber )
+        local cv_size = args:split( '|', tonumber )
 
         gl_view:setFrameSize( cv_size[1], cv_size[2] );
         gl_view:setDesignResolutionSize( cv_size[1], cv_size[2], kResolutionShowAll );
@@ -34,7 +40,7 @@ function main()
     end)
 
     register_platform_callback( 'NEW_SEAMLESS_MAP', function( args )
-        local new_args = args.split( '|' )
+        local new_args = args:split( '|' )
 
         local file_name = new_args[1]
         local block_name = new_args[2]
@@ -68,7 +74,7 @@ function main()
     end)
 
     register_platform_callback( 'NEW_MAP_BLOCK', function( args )
-        local new_args = args.split( '|' )
+        local new_args = args:split( '|' )
 
         local block_name = new_args[1]
         local block_x = tonumber( new_args[2] )
@@ -99,7 +105,7 @@ function main()
     local last_edit_node_rotation = nil
     local down_x, down_y = nil, nil
     register_platform_callback( 'CHILD_VIEW_LBUTTON_DOWN', function( args )
-        local down_args = args.split( '|' )
+        local down_args = args:split( '|' )
 
         last_pos_x = down_args[1]
         last_pos_y = down_args[2]
@@ -132,7 +138,7 @@ function main()
         end
     end)
     register_platform_callback( 'CHILD_VIEW_LBUTTON_UP', function( args )
-        local down_args = args.split( '|' )
+        local down_args = args:split( '|' )
 
         last_pos_x = down_args[1]
         last_pos_y = down_args[2]
@@ -152,7 +158,9 @@ function main()
     end)
 
     register_platform_callback( 'CHILD_VIEW_MOUSE_MOVE', function( args )
-        local down_args = args.split( '|' )
+        if not down_flag then return end
+
+        local down_args = args:split( '|' )
 
         local pos_x = down_args[1]
         local pos_y = down_args[2]
@@ -231,7 +239,7 @@ function main()
     end)
 
     register_platform_callback( 'ADD_SPRITE_DROP', function( args )
-        local down_args = args.split( '|' )
+        local down_args = args:split( '|' )
 
         local x = down_args[1]
         local y = down_args[2]
