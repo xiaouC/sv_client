@@ -230,6 +230,29 @@ function main()
         end
     end)
 
+    register_platform_callback( 'ADD_SPRITE_DROP', function( args )
+        local down_args = args.split( '|' )
+
+        local x = down_args[1]
+        local y = down_args[2]
+        local file = down_args[3]
+
+        local w_x, w_y = convertPointToSM( x, y )
+        if w_x then
+            local map_block = g_sm_node:getMapBlock( w_x, w_y )
+            if map_block then
+                local mb_x, mb_y = map_block:getPosition()
+                local m_x, m_y = w_x - mb_x, w_y - mb_y
+
+                local sprite = map_block:addSprite( file, m_x, m_y );
+                if sprite then
+                    g_edit_mb = map_block;
+                    g_edit_node = sprite;
+                end
+            end
+        end
+    end)
+
     register_platform_callback( 'LOAD_OBSTACLE', function( args )
     end)
 
