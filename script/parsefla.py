@@ -831,7 +831,7 @@ if __name__ == '__main__':
         inputroot = sys.argv[1]
         outputroot = sys.argv[2]
     else:
-        inputroot = '../../fla'
+        inputroot = '../../sv_fla'
         outputroot = '../mc'
 
     for d in os.listdir(inputroot):

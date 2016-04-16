@@ -18,7 +18,6 @@ function __device_base:ctor()
             require 'utils.richMark'
             TLFontTex:setFontOriginSize( GameSettings.font_size )
             TLFontTex:setFontName( getPlatform() == 'android' and GameSettings.font_name_android or GameSettings.font_name )
-            TLFontTex:setEdgeSize( GameSettings.edge_size )
             TLFontTex:setParseRichTextHandler( parseRichTextMark )
 
             TLFontTex:sharedTLFontTex():initFontTexture( GameSettings.color_tex_file, GameSettings.color_tex_row, GameSettings.color_tex_col, GameSettings.color_shader )

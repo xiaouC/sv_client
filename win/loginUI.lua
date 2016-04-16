@@ -18,10 +18,12 @@ end
 function createLoginWindow()
     local win, mc = topwindow( 'UI/login/login' )
 
-    local background_sprite = MCLoader:sharedMCLoader():loadSpriteAsync( 'login_background.jpg' )
+    local background_sprite = MCLoader:sharedMCLoader():loadSpriteAsync( 'images/login_background.jpg' )
     mc:getChildByName( 'background' ):addChild( background_sprite )
 
-    local logo_sprite = MCLoader:sharedMCLoader():loadSpriteAsync( 'logo.jpg' )
+    local logo_sprite = MCLoader:sharedMCLoader():loadSpriteAsync( 'images/logo.png' )
+    logo_sprite:setScaleX( 1.2 )
+    logo_sprite:setScaleY( 0.6 )
     mc:getChildByName( 'logo' ):addChild( logo_sprite )
 
     local new_mc = createMovieClipWithName( 'UI/button/button_1' )
