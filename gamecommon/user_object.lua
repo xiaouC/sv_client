@@ -9,8 +9,18 @@ function __user_object:ctor( name )
     self.model_offset_x = 0
     self.model_offset_y = 30
 
+    self.save_archive_counter = 0
     self.schedule_handle = schedule_circle( 1, function()
-        self:updateGridObjectState()
+        -- 更新附近可见的 grid object 的状态
+        for _,grid_obj in pairs( self.all_grid_objs ) do
+            grid_obj:update()
+        end
+
+        -- 每隔十秒，自动存档
+        self.save_archive_counter = self.save_archive_counter + 1
+        if self.save_archive_counter % 10 == 0 then
+            self:saveArchive()
+        end
     end)
 end
 
@@ -196,11 +206,20 @@ function __user_object:getGridPosition( grid_key )
 end
 
 function __user_object:clearGrid( grid_key )
+    -- 静态
+    if self.save_datas['obstacle'] then
+        local all_obstacle = self.save_datas['obstacle']
+        local sm_file = self.scene_node:getSeamlessMapFile()
+        if all_obstacle[sm_file] and all_obstacle[sm_file][grid_key] then
+            all_obstacle[sm_file][grid_key] = nil
+        end
+    end
+
+    -- 动态
     local grid_states = self.save_datas.grids[self.scene_name]
-    if not grid_states then return end
+    if grid_states then grid_states[grid_key] = nil end
 
-    grid_states[grid_key] = nil
-
+    -- grid object
     local grid_obj = player_obj.all_grid_objs[grid_key]
     if grid_obj then grid_obj:clear() end
     player_obj.all_grid_objs[grid_key] = nil
@@ -285,19 +304,11 @@ function __user_object:setTo( x, y )
 
     self.scene_node:setCurXY( x, y )
     self.scene_node:setPosition( -x, -y )
-end
 
-function __user_object:doAction( action, call_back_func )
-    self.cur_action = action
-
-    self.enable_move = false
-
-    require 'gamecommon.skill'
-    useSkill( self, nil, self.cur_action, function()
-        self.enable_move = true
-
-        if call_back_func then call_back_func() end
-    end)
+    -- 移动一段距离后去生成附近的，销毁远离的
+    if math.abs( self.last_update_grid_obj_x - self.cur_x ) >= 2 * self.grid_width or math.abs( self.last_update_grid_obj_y - self.cur_y ) >= 2 * self.grid_height then
+        self:updateGridObjects()
+    end
 end
 
 -- 移动一段距离后去生成附近的，销毁远离的
@@ -330,10 +341,81 @@ function __user_object:updateGridObjects()
     end
 end
 
--- 每秒执行一次的更新状态
-function __user_object:updateGridObjectState()
-    for _,grid_obj in pairs( self.all_grid_objs ) do
-        grid_obj:update()
+function __user_object:doAction( action, call_back_func )
+    self.cur_action = action
+
+    self.enable_move = false
+
+    require 'gamecommon.skill'
+    useSkill( self, nil, self.cur_action, function()
+        self.enable_move = true
+
+        if call_back_func then call_back_func() end
+    end)
+end
+
+function __user_object:getUnusedItemID()
+    local function __check__( item_id )
+        for _,item_obj in ipairs( self.save_datas['items'] or {} ) do
+            if item_obj.id == item_id then return true end
+        end
+        return false
+    end
+
+    local next_item_id = 1
+    while( __check__( next_item_id ) ) do
+        next_item_id = next_item_id + 1
+    end
+
+    return next_item_id
+end
+
+-- 这样返回的 item object 一定是唯一的
+function __user_object:getItemObject( item_id )
+    for _,item_obj in ipairs( self.save_datas['items'] or {} ) do
+        if item_obj.id == item_id then return item_obj end
+    end
+    return nil
+end
+
+-- 这个只会返回第一个 config id 对应的 item object
+function __user_object:getItemObjectByConfigID( config_id )
+    for _,item_obj in ipairs( self.save_datas['items'] or {} ) do
+        if item_obj.config_id == config_id then return item_obj end
+    end
+    return nil
+end
+
+function __user_object:useItem( item_id, call_back_func )
+    local item_obj = self:getItemObject( item_id )
+    if not item_obj then
+        if call_back_func then call_back_func() end
+
+        return
+    end
+
+    require 'config.item_config'
+    local item_info = YY_ITEM_CONFIG[item_obj.config_id]
+    if not item_info or #item_info.skill_ids == 0 then
+        if call_back_func then call_back_func() end
+
+        return
+    end
+
+    require 'gamecommon.skill'
+
+    self.enable_move = false
+    local use_skill_counter = #item_info.skill_ids
+
+    for _,skill_id in ipairs( item_info.skill_ids ) do
+        useSkill( self, item_obj, skill_id, function()
+            use_skill_counter = use_skill_counter - 1
+            if use_skill_counter == 0 then
+                self.enable_move = true
+
+                if call_back_func then call_back_func() end
+            end
+        end)
     end
 end
 

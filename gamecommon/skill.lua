@@ -10,6 +10,7 @@ local ShouGe = 5
 local MaiChu = 6
 local ShiYong = 7
 local GrowingUp = 8
+local QingLi = 9
 
 skill_ability = {
     [KaiKen] = {
@@ -183,6 +184,24 @@ skill_ability = {
                     end
                 end
             end
+        end,
+        finish_func = function( player_obj, item_obj )
+        end,
+    },
+    [QingLi] = {
+        check_func = function( player_obj, item_obj )
+            return true
+        end,
+        effect_func = function( player_obj, item_obj, ns_info, rm_info )
+            local grid_info, grid_key = player_obj:getGridInfo( 'front', true )
+            if grid_info then
+                grid_info.counter = grid_info.counter - 1
+                if grid_info.counter <= 0 then
+                    player_obj:clearGrid( grid_key )
+                end
+            end
+        end,
+        update_func = function( player_obj, item_obj )
         end,
         finish_func = function( player_obj, item_obj )
         end,

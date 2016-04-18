@@ -9,6 +9,8 @@
 --    can_reap = false,               -- 能否收割
 --    model = 0,                      -- 当前模型
 --    scale = 1,                      -- 缩放
+--    item_type = 1,                  -- 用什么物品才可以清理掉
+--    counter = 1,                    -- 需要清理几次才能完全清理掉
 --}
 YY_OBSTACLE_CONFIG = {
     [1] = {
@@ -19,5 +21,7 @@ YY_OBSTACLE_CONFIG = {
         can_plant = false,
         can_reap = false,
         model = 'images/730002.png',
+        item_type = 1,
+        counter = 1,
     },
 }
